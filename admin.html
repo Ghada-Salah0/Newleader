@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<script src="config.js"></script>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>لوحة نتائج القائد الأخير – للمنظّم</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F3F5FA;--cd:#fff;--tx:#0F2A4D;--mu:#5B6B85;--bd:#DCE3EF;--or:#FF7A1A;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0B1F3A;--cd:#14305A;--tx:#fff;--mu:#A9B8D0;--bd:#26497D}}
+:root[data-theme="dark"]{--bg:#0B1F3A;--cd:#14305A;--tx:#fff;--mu:#A9B8D0;--bd:#26497D}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:500 16px/1.6 Cairo,Tahoma,sans-serif}
+main{max-width:980px;margin:auto;padding:16px}
+h1{margin:0 0 4px;font-weight:900;font-size:28px}
+.cd{background:var(--cd);border:1px solid var(--bd);border-radius:16px;padding:14px;margin:12px 0}
+.kp{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.kp div{background:var(--cd);border:1px solid var(--bd);border-radius:14px;padding:10px;text-align:center}
+.kp b{display:block;font-size:28px;color:var(--or);font-weight:900}
+.sc{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:620px}
+th,td{border-bottom:1px solid var(--bd);padding:7px 8px;text-align:right}
+th{cursor:pointer;color:var(--mu);white-space:nowrap}
+.btn{min-height:46px;border:0;border-radius:12px;background:var(--or);color:#0B1F3A;font:900 16px Cairo,sans-serif;padding:8px 18px;cursor:pointer}
+.btn:focus-visible,th:focus-visible{outline:3px solid #FDB922;outline-offset:2px}
+.mu{color:var(--mu)}input{flex:1;min-height:46px;border:2px solid var(--bd);border-radius:12px;padding:8px 12px;font:700 16px Cairo,sans-serif;background:var(--cd);color:var(--tx)}
+</style>
+</head>
+<body>
+<main>
+<h1>لوحة نتائج "القائد الأخير"</h1>
+<div class="cd" id="kc"><label for="ky">كلمة سر المنظّم</label><div style="display:flex;gap:8px"><input id="ky" type="password" autocomplete="off"><button class="btn" id="go">عرض النتائج</button></div><p class="mu" id="er"></p></div>
+<div class="mu" id="up"></div>
+<div class="kp" id="kp"></div>
+<div class="cd"><b>توزيع النهايات</b><div id="en"></div></div>
+<div class="cd sc"><table><thead><tr id="hd"></tr></thead><tbody id="bd"></tbody></table><p id="em" class="mu"></p></div>
+<button class="btn" id="dl">تحميل CSV</button>
+</main>
+<script>
+let UPDATED='—',rows=[];
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,'');
+const COLS=[['name','الاسم'],['ch','الشخصية'],['score','النقاط (من 800)'],['end','النهاية'],['ind','استقلال الفريق %'],['t','ثقة المتطوعين'],['c','ثقة المجتمع'],['r','جاهزية الفريق'],['e','الطاقة'],['b','الميزانية'],['at','التاريخ']];
+const mapR=r=>({name:r.name,ch:r.ch,score:r.score,end:r.end,ind:r.ind,t:r.res[2],c:r.res[3],r:r.res[4],e:r.res[1],b:r.res[0],at:String(r.at||'').slice(0,10)});
+let sk='score',asc=false;
+function draw(){
+const n=rows.length,avg=n?Math.round(rows.reduce((a,r)=>a+r.score,0)/n):0,ai=n?Math.round(rows.reduce((a,r)=>a+r.ind,0)/n):0;
+document.querySelector('#up').textContent='آخر تحديث: '+UPDATED;
+document.querySelector('#kp').innerHTML=`<div><b>${n}</b>مشارك</div><div><b>${avg}</b>متوسط النقاط</div><div><b>${ai}%</b>متوسط استقلال الفريق</div><div><b>${n?Math.max(...rows.map(r=>r.score)):0}</b>أعلى نتيجة</div>`;
+const ec={};rows.forEach(r=>ec[r.end]=(ec[r.end]||0)+1);
+document.querySelector('#en').innerHTML=Object.keys(ec).length?Object.entries(ec).map(([k,v])=>`<div>${esc(k)}: ${v}</div>`).join(''):'<span class="mu">—</span>';
+document.querySelector('#hd').innerHTML=COLS.map(c=>`<th tabindex="0" data-k="${c[0]}">${c[1]}${sk==c[0]?(asc?' ▲':' ▼'):''}</th>`).join('');
+const s=[...rows].sort((a,b)=>(a[sk]>b[sk]?1:-1)*(asc?1:-1));
+document.querySelector('#bd').innerHTML=s.map(r=>`<tr>${COLS.map(c=>`<td>${esc(r[c[0]])}</td>`).join('')}</tr>`).join('');
+document.querySelector('#em').textContent=n?'':'لسه مفيش نتايج.';
+document.querySelectorAll('th').forEach(h=>{const f=()=>{const k=h.dataset.k;asc=sk==k?!asc:false;sk=k;draw()};h.onclick=f;h.onkeydown=e=>{if(e.key=='Enter')f()}})}
+document.querySelector('#dl').onclick=()=>{const t=COLS.map(c=>c[1]).join(',')+'\n'+rows.map(r=>COLS.map(c=>'"'+esc(r[c[0]])+'"').join(',')).join('\n'),a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['\ufeff'+t],{type:'text/csv;charset=utf-8'}));a.download='results.csv';a.click()};
+document.querySelector('#go').onclick=async()=>{const er=document.querySelector('#er'),E=window.CFG&&CFG.endpoint;er.textContent='';if(!E||E.includes('PASTE')){er.textContent='رابط التسجيل مش مضبوط في config.js';return}
+try{const j=await (await fetch(E+'?key='+encodeURIComponent(document.querySelector('#ky').value))).json();if(!j.ok){er.textContent='كلمة السر غلط';return}rows=j.rows.map(mapR);UPDATED=new Date().toLocaleString('ar-EG');document.querySelector('#kc').hidden=true;draw()}catch(e){er.textContent='تعذّر تحميل النتائج. اتأكد من الرابط ومن إعدادات النشر.'}};
+draw();
+</script>
+</body>
+</html>

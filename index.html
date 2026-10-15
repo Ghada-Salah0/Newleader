@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<script src="config.js"></script>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>القائد الأخير – نسخة المتدربين</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F3F5FA;--cd:#fff;--tx:#0F2A4D;--mu:#5B6B85;--bd:#DCE3EF;--or:#FF7A1A;--ye:#FDB922;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0B1F3A;--cd:#14305A;--tx:#fff;--mu:#A9B8D0;--bd:#26497D}}
+:root[data-theme="dark"]{--bg:#0B1F3A;--cd:#14305A;--tx:#fff;--mu:#A9B8D0;--bd:#26497D}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:500 17px/1.6 Cairo,Tahoma,sans-serif}
+#app{max-width:760px;margin:auto;padding:16px}
+h1,h2,h3{margin:0;font-weight:900;line-height:1.3}
+.cd{background:var(--cd);border:1px solid var(--bd);border-radius:18px;padding:14px;margin:12px 0}
+.btn{display:block;width:100%;min-height:50px;border:0;border-radius:14px;background:var(--or);color:#0B1F3A;font:900 18px Cairo,sans-serif;padding:10px 16px;cursor:pointer;margin:8px 0}
+.btn.g{background:transparent;color:var(--tx);border:2px solid var(--bd)}
+.btn:focus-visible,.op:focus-visible,.ch:focus-visible{outline:3px solid var(--ye);outline-offset:2px}
+.op{display:block;width:100%;text-align:right;background:var(--cd);color:var(--tx);border:2px solid var(--bd);border-radius:14px;padding:12px 14px;margin:8px 0;font:700 17px/1.5 Cairo,sans-serif;cursor:pointer}
+.op:hover:not(:disabled){border-color:var(--or)}
+.op:disabled{opacity:.5;cursor:not-allowed}
+.op small{display:block;color:var(--mu);font-weight:500}
+.b{display:grid;grid-template-columns:128px 1fr 62px;gap:8px;align-items:center;font-size:14px;margin:4px 0}
+.b i{height:9px;border-radius:9px;background:var(--bd);overflow:hidden;display:block}
+.b u{display:block;height:100%;border-radius:9px;transition:width .6s}
+.b b{text-align:left;font-weight:900}
+em{font-style:normal;font-size:12px;margin-inline-start:4px}.up{color:#1f9d63}.dn{color:#d64545}
+.hero{background:#0F2A4D;color:#fff;border-radius:22px;padding:22px 16px;text-align:center;background-image:radial-gradient(circle at 15% 0,rgba(255,122,26,.45),transparent 55%),radial-gradient(circle at 90% 100%,rgba(253,185,34,.3),transparent 50%)}
+.hero p{color:#E4ECF8;margin:10px 0 0}
+.av{animation:bob 2.6s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-5px)}}
+@media(prefers-reduced-motion:reduce){.av{animation:none}.b u{transition:none}}
+.row{display:flex;gap:10px;align-items:flex-end;justify-content:center}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(min-width:620px){.grid{grid-template-columns:1fr 1fr 1fr}}
+.ch{background:var(--cd);color:var(--tx);border:2px solid var(--bd);border-radius:16px;padding:10px;text-align:center;font:500 13px/1.45 Cairo,sans-serif;cursor:pointer}
+.ch.on{border-color:var(--or);box-shadow:0 0 0 3px rgba(255,122,26,.3)}
+.ch b{display:block;font-size:16px}.ch .s{color:#1f9d63}.ch .w{color:#d64545}
+.map{display:flex;gap:6px;margin:6px 0}
+.map span{flex:1;height:8px;border-radius:8px;background:var(--bd)}.map .d{background:var(--or)}.map .c{background:var(--ye)}
+.bub{display:flex;gap:12px;align-items:flex-end}
+.bub p{margin:0;background:var(--cd);border:1px solid var(--bd);border-radius:18px 18px 18px 4px;padding:12px 14px;flex:1}
+.chip{display:inline-block;background:var(--bd);border-radius:20px;padding:2px 10px;margin:3px 3px 0 0;font-size:13px;font-weight:700}
+.nt{border-inline-start:5px solid var(--ye)}.tb{width:100%;border-collapse:collapse;font-size:14px}.tb td,.tb th{border:1px solid var(--bd);padding:4px 6px;text-align:right}
+input{width:100%;min-height:46px;border:2px solid var(--bd);border-radius:12px;padding:8px 12px;font:700 17px Cairo,sans-serif;background:var(--cd);color:var(--tx)}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+const R=['الميزانية','الطاقة','ثقة المتطوعين','ثقة المجتمع','جاهزية الفريق','السمعة'],RI=['💰','⚡','🤝','🌍','🎓','⭐'],RC=['#FDB922','#FF7A1A','#1f9d63','#2b8be0','#8a5cf6','#e0508c'];
+const SL=['القرار','الموارد','الفريق','الأخلاق','الاستدامة'];
+// اسم، لقب، قوة، ضعف، بشرة، شعر، لبس، نمط، [مؤشر القوة، مؤشر الضعف]
+const CH=[['آدم','المخطِّط','التخطيط وتحليل المعلومات','بيفكر كتير وبيأخّر القرار','#C68A5E','#2B2118','#2B8BE0','m',[4,1]],
+['سلمى','المؤثّرة','التواصل وكسب الثقة','بتتجنب المواجهات الصعبة','#E0AC82','#7A4A5B','#E0508C','h',[2,3]],
+['يوسف','حلّال الأزمات','السرعة والمبادرة تحت الضغط','بيتحرك قبل ما يجمع المعلومات','#B97B4E','#1B1B1B','#1F9D63','m',[1,4]],
+['ملاك','مطوّرة الفريق','اكتشاف قدرات الناس وتدريبهم','بتشيل مسؤوليات أكتر من اللازم','#E6B48B','#4B6A9B','#8A5CF6','h',[4,1]],
+['عمر','المفاوض','حل الخلافات وبناء الشراكات','بيتنازل كتير عشان العلاقات','#C98F63','#3A2A1A','#FF7A1A','m',[3,5]],
+['نور','المبتكرة','الإبداع والحلول غير التقليدية','بتجري ورا أفكار كتير مرة واحدة','#D9A077','#2F7A7A','#FDB922','h',[5,4]]];
+const av=(i,z=92)=>{const c=CH[i],h=c[7]=='h';return `<svg class="av" width="${z}" height="${z*1.15}" viewBox="0 0 100 115" aria-hidden="true"><path d="M10 115c0-27 17-39 40-39s40 12 40 39z" fill="${c[6]}"/><rect x="43" y="62" width="14" height="18" rx="6" fill="${c[4]}"/>${h?`<ellipse cx="50" cy="43" rx="32" ry="36" fill="${c[5]}"/>`:''}<ellipse cx="50" cy="43" rx="22" ry="25" fill="${c[4]}"/>${h?'':`<path d="M26 41C23 19 37 9 51 9s27 10 24 32c-6-10-14-14-25-14s-19 4-24 14z" fill="${c[5]}"/>`}<circle cx="42" cy="45" r="2.8" fill="#222"/><circle cx="58" cy="45" r="2.8" fill="#222"/><path d="M41 55q9 8 18 0" stroke="#222" stroke-width="2.6" fill="none" stroke-linecap="round"/></svg>`};
+// خيار: [نص، أثر[6]، درجات[5]، علامات، ملاحظة، شرط]
+const M=[
+['أنت القائد دلوقتي','اتعيّنت قائد لـ 12 متطوع ومعاكم 72 ساعة لمبادرة مجتمعية. فيه اتنين بينهم خلاف، ومنسّق اللوجستيات مش بيرد، والميزانية أقل من المتوقع، والمدير عايز نتايج قابلة للقياس.','منسّق اللوجستيات مش مهمل، هو بس مش فاهم المطلوب منه بالظبط.',[
+['اجمع الفريق، وزّع أدوار واضحة، وكلّم منسّق اللوجستيات لوحده',[0,-10,5,0,8,0],[8,7,8,8,8],'delegate','الأدوار الواضحة قلّلت التوهان، بس أخدت وقت وطاقة.'],
+['ابدأ الشغل فورًا وسيب الخلافات والتدريب لبعدين عشان تلحق الميعاد',[0,-5,-8,0,-6,5],[5,5,3,5,3],'speed,notrain','اتحرّكتوا بسرعة، بس الجداد اشتغلوا من غير تدريب.'],
+['راجع كل تفصيلة بنفسك عشان تضمن الجودة',[-5,-20,-4,0,0,3],[5,5,3,6,2],'solo','الشغل ماشي، بس طاقتك بتخلص والفريق بقى معتمد عليك.']]],
+['فريقك مش ماشي وراك','متطوع كفء بيعترض قدام الكل على قراراتك ويقول إنها بطيئة وغير عملية. وفي نفس الوقت فيه متطوعة هادية عندها أفكار مفيدة بس مش بتتكلم.','اعتراضه فيه نقطة حقيقية: الخطة مش واخدة المسافات في الحسبان.',[
+['اسمعه قدام الفريق، عدّل اللي منطقي، وحدد مسؤوليته وتابعه',[0,-6,8,0,5,2],[9,7,9,8,8],'listen','كسبت احترامه، والمتطوعة الهادية بدأت تتكلم.'],
+['اتمسّك بالقرار عشان محدش يفتكرك ضعيف',[0,0,-10,0,-3,0],[4,5,3,5,3],'speed','القرار اتنفّذ، بس الجو بقى متوتر.'],
+['اطلب منه يسيب الفريق',[0,3,-12,0,-8,-3],[3,4,2,4,2],'speed','فقدت متطوع كفء والباقي بقى حذر.']]],
+['الموارد مش كفاية','المستفيدين طلعوا أكتر بـ 40% من المتوقع، وجزء من المستلزمات هيتأخر. الميزانية مش هتزيد.','فيه جمعية قريبة عندها فايض، وهتتبرع لو اتواصلتوا معاها رسميًا.',[
+['حدد الأولويات، اتفاوض مع الموردين والجمعية، وبلّغ الناس بالوضع بصراحة',[-8,-10,3,6,3,4],[9,8,7,9,8],'ethic','الشفافية خلّت الناس تتفهم، والتأخير اتحل جزئيًا.'],
+['اصرف الاحتياطي كله عشان الكل ياخد نفس الكمية',[-30,-3,2,3,0,0],[5,3,5,7,2],'overspend','الكل خد نصيبه، بس الميزانية فضيت بدري.'],
+['قلّل الكميات للكل من غير ما تقول',[0,-3,-3,-8,0,-6],[4,6,4,2,3],'hide','المشكلة اتأجلت، بس ناس لاحظوا النقص.']]],
+['أزمة قدام الكل','في فعالية عامة، بوست على السوشيال بيتهمكم بسوء التنظيم. بعض الكلام صح وبعضه لسه مش متأكد. متطوع عايز يمسح التعليقات، وتاني عايز يرد بعصبية، والمدير عايز تفسير فوري.','ثلث الاتهامات صحيح: التأخير في التوزيع حصل فعلًا.',[
+['اتحقق الأول، اعترف بالغلط الحقيقي، ووضّح اللي اتعمل من غير نشر بيانات المستفيدين',[0,-8,4,6,4,4],[9,7,8,10,8],'ethic','الصراحة خفّفت الهجوم وناس كتير دافعت عنكم.'],
+['امسح التعليقات وسيب الموضوع يهدى',[0,3,-4,-12,0,-10],[2,5,3,1,2],'hide','التعليقات اختفت، بس لقطات الشاشة انتشرت.'],
+['ردّ بحدة على كل اتهام عشان تدافع عن الفريق',[0,-10,3,-8,0,-6],[3,4,6,3,2],'','الفريق حس بالدعم، بس الحوار اتحول لخناقة علنية.']]],
+['قرار مفيش له إجابة مثالية','شريك جديد عارض تمويل، بس عايز ظهور أكتر من المتفق عليه، وده ممكن يأثر على استقلال المبادرة. والفريق محتاج الفلوس بسرعة.','الشريك عايز حق حصري على اسم المبادرة في 3 فعاليات جاية، مش بس الشعار.',[
+['اتفاوض على حدود واضحة: شعار بس من غير تدخل في المحتوى، بدعم أقل',[10,-8,2,5,0,3],[9,8,7,9,9],'ethic','خدتوا تمويل أقل، بس استقلال المبادرة اتحمى.'],
+['اقبل كل الشروط لأن الفريق محتاج الفلوس',[30,0,-3,-6,0,-8],[4,6,3,3,2],'sell','الفلوس نزلت، بس المستفيدين استغربوا كتر الإعلانات.'],
+['ارفض العرض وادوّر على تمويل بديل',[-5,-10,2,3,0,0],[6,5,6,8,7],'','حافظتوا على المبدأ، بس التمويل اتأخر.']]],
+['القائد مش سوبرمان','بقيت مسؤول عن مشروعين مواعيدهم متداخلة، والفريق متعوّد يسألك في كل تفصيلة.','اتنين متطوعين جاهزين يقودوا مهمة، بس محدش عرض عليهم.',[
+['فوّض مسؤوليات واضحة، وحدد نقاط متابعة قصيرة، وسيب لهم مساحة',[0,-5,5,0,10,2],[9,8,9,8,10],'delegate','الفريق بدأ يشتغل من غير ما يرجعلك في كل صغيرة.'],
+['فوّض كل حاجة من غير أي متابعة',[0,5,0,0,-4,-6],[4,6,3,5,3],'','ارتحت، بس ظهرت أخطاء كبيرة وقت التسليم.'],
+['فضّل تتحكم في كل حاجة بنفسك',[0,-22,-6,0,-4,0],[4,4,3,5,2],'solo','فاتك ميعاد، والفريق مرهق.']]],
+['النجاح ممكن يهدّ الفريق','المبادرة نجحت جدًا، بس ظهرت مشكلة: قائد فرعي بينسب الإنجاز لنفسه، والجداد مش بياخدوا فرص، والخبرة كلها عند اتنين بس.','الحل في توثيق خبرة الاتنين وإشراك الجداد.',[
+['وثّق الإجراءات، وزّع التقدير بعدل، وادّي الجداد مسؤوليات حقيقية',[0,-8,8,3,10,5],[10,8,9,9,10],'delegate','الثقافة بقت أقوى والمعرفة اتوزعت.'],
+['كافئ القائد الفرعي المميز عشان يفضل معاكم',[5,0,-8,0,0,3],[5,6,3,4,3],'','اتحل شكليًا، والجداد حسّوا إنهم مش مرئيين.'],
+['سيب الأمور زي ما هي لأن النتايج ممتازة',[0,5,-6,0,-6,2],[3,5,3,4,2],'solo','المشاكل اتراكمت تحت السطح.']]],
+['الاختبار الأخير','قبل فعالية مهمة بأيام: قائد أساسي غاب، الميزانية قلّت، معلومة جديدة غيّرت الأولويات، وشريك انسحب. والفريق مختلف على الحل.','قراراتك السابقة هي اللي بتحدد الخيارات المتاحة ليك.',[
+['اتحمّل كل المهام بنفسك وكمّل',[0,-25,-5,0,-5,0],[4,4,3,5,2],'solo','خلّصت الفعالية بالعافية، والفريق كان متفرج.'],
+['اجمع الفريق، وزّع المهام وأعد ترتيب الأولويات',[0,-10,6,3,6,5],[8,7,8,8,8],'','الفريق اتحرّك سوا، وفيه تفاصيل اتأجلت.','r'],
+['فعّل مساعد القائد اللي دربته وسلّمه الجزء الأكبر',[0,-3,8,3,8,6],[10,8,10,8,10],'','المساعد مسك الدفة والفعالية نجحت.','d'],
+['استخدم الاحتياطي واتفاوض مع شريك بديل بشفافية',[-20,-8,3,6,2,4],[8,8,6,9,7],'','الشريك البديل دخل، والميزانية اتأثرت.','b']]]];
+// عواقب متأخرة: علامة، رقم المهمة (من 0)، أثر، نص
+const CQ=[['notrain',3,[0,0,0,0,-10,-5],'أخطاء في التنفيذ لأن الجداد ما اتدربوش من أول مهمة.'],
+['speed',2,[0,0,-8,0,0,0],'بعض المتطوعين قلّلوا مشاركتهم بعد القرارات السريعة من غير إنصات.'],
+['ethic',4,[0,0,0,6,0,4],'ثقة المجتمع زادت بسبب قراراتك الأمينة السابقة.'],
+['hide',5,[0,0,0,-10,0,-6],'اتكشف إن معلومات اتخبّت، وده أثّر على الثقة.'],
+['delegate',5,[0,8,0,0,6,0],'القادة اللي دربتهم خففوا عنك الحمل.'],
+['solo',6,[0,-10,0,0,-4,0],'اعتماد الفريق عليك زوّد الضغط عليك.'],
+['overspend',7,[-12,0,0,0,0,0],'صرفك المبكر للميزانية خلّى الأزمة الأخيرة أصعب.']];
+const LK={r:'محتاج جاهزية فريق 50 أو أكتر',d:'محتاج تكون فوّضت مرتين على الأقل',b:'محتاج ميزانية 25 أو أكتر'};
+const ap=document.querySelector('#app');let S=null;
+const ld=()=>{try{return JSON.parse(localStorage.getItem('tll'))}catch(e){return null}};
+const sv=()=>{try{localStorage.setItem('tll',JSON.stringify(S))}catch(e){}};
+const cl=v=>Math.max(0,Math.min(100,v)),has=f=>S.flags.filter(x=>x==f).length;
+const ok=k=>!k||(k=='r'?S.res[4]>=50:k=='d'?has('delegate')>=2:S.res[0]>=25);
+const bars=sn=>S.res.map((v,i)=>{const d=sn?v-sn[i]:0;return `<div class="b"><span>${RI[i]} ${R[i]}</span><i><u style="width:${v}%;background:${RC[i]}"></u></i><b>${v}${d?`<em class="${d>0?'up':'dn'}">${d>0?'+':''}${d}</em>`:''}</b></div>`}).join('');
+const nm=()=>S.name||CH[S.ch][0];
+function draw(){const f={start:vStart,sel:vSel,mis:vMis,res:vRes,end:vEnd}[S.screen];ap.innerHTML=f();scrollTo(0,0)}
+function vStart(){const sd=ld();return `<div class="hero"><h1 style="font-size:40px">القائد الأخير</h1><p style="font-weight:700">مش كل قرار صح بيكون سهل، ومش كل قائد ناجح بيعرف يكسب لوحده.</p><div class="row" style="margin-top:14px">${[0,1,2,3,4,5].map(i=>av(i,52)).join('')}</div></div>
+<div class="cd">8 مهام متصلة، وكل قرار ليه تمن وبيأثر على اللي جاي. المعلومة الناقصة ممكن تغيّر حسابك، فاسأل قبل ما تقرر.</div>
+<button class="btn" onclick="S={screen:'sel',ch:0,name:''};draw()">ابدأ لعبة جديدة</button>
+${sd&&sd.screen!='start'?`<button class="btn g" onclick="S=ld();draw()">كمّل من حيث وقفت</button>`:''}`}
+function vSel(){return `<h2>اختار شخصيتك</h2><p style="color:var(--mu);margin:4px 0 10px">الشخصية بتدّيك ميزة وعيب صغيرين بس. نجاحك الحقيقي من قراراتك.</p>
+<div class="grid">${CH.map((c,i)=>`<button class="ch ${S.ch==i?'on':''}" onclick="S.ch=${i};S.name=document.querySelector('#nm').value;draw()">${av(i,70)}<b>${c[0]}</b>${c[1]}<div class="s">＋ ${c[2]}</div><div class="w">－ ${c[3]}</div></button>`).join('')}</div>
+<div class="cd"><label for="nm">اسمك الكامل (مطلوب، هيظهر للمنظّم)</label><input id="nm" maxlength="14" value="${S.name||''}" placeholder="اكتب اسمك الكامل"></div>
+<button class="btn" onclick="go()">يلا نبدأ</button>`}
+function go(){const c=CH[S.ch],n=document.querySelector('#nm').value.replace(/[<>&"]/g,'').trim();if(!n){note('اكتب اسمك الأول عشان نسجّل نتيجتك');return}S={screen:'mis',ch:S.ch,name:n,m:0,res:[100,100,70,60,50,70],score:0,flags:[],hist:[],ap:[],asked:false,notes:[],snap:[],last:null};S.res[c[8][0]]+=5;S.res[c[8][1]]-=5;enter()}
+function enter(){S.snap=[...S.res];S.notes=[];S.asked=false;CQ.forEach((q,k)=>{if(q[1]==S.m&&has(q[0])&&!S.ap.includes(k)){S.ap.push(k);q[2].forEach((d,j)=>S.res[j]=cl(S.res[j]+d));S.notes.push(q[3])}});S.screen='mis';sv();draw()}
+function vMis(){const m=M[S.m];return `<div class="map">${M.map((_,i)=>`<span class="${i<S.m?'d':i==S.m?'c':''}"></span>`).join('')}</div>
+<h2>المهمة ${S.m+1}: ${m[0]}</h2><div class="cd">${bars(S.snap)}</div>
+${S.notes.map(n=>`<div class="cd nt">⏳ ${n}</div>`).join('')}
+<div class="bub">${av(S.ch,78)}<p><b>${nm()}، </b>${m[1]}</p></div>
+${S.asked?`<div class="cd nt">💬 ${m[2]}</div>`:`<button class="btn g" onclick="ask()">اسأل زميل عن التفاصيل (يكلّف 5 طاقة)</button>`}
+${m[3].map((o,i)=>{const k=ok(o[5]);return `<button class="op" ${k?'':'disabled'} onclick="pick(${i})">${o[0]}${k?'':`<small>🔒 ${LK[o[5]]}</small>`}</button>`}).join('')}`}
+function ask(){S.asked=true;S.res[1]=cl(S.res[1]-5);sv();draw()}
+function pick(i){const o=M[S.m][3][i];if(!ok(o[5]))return;o[1].forEach((d,j)=>S.res[j]=cl(S.res[j]+d));o[3].split(',').filter(Boolean).forEach(f=>S.flags.push(f));const s=o[2],p=Math.round((s[0]*.25+s[1]*.2+s[2]*.2+s[3]*.2+s[4]*.15)*10);S.score+=p;S.hist.push([S.m,i,p]);S.screen='res';sv();draw()}
+function vRes(){const h=S.hist[S.hist.length-1],o=M[h[0]][3][h[1]],last=S.m==7;return `<h2>اللي حصل</h2><div class="bub">${av(S.ch,70)}<p>${o[4]}</p></div>
+<div class="cd"><b>نقاط المهمة: ${h[2]}</b> · الإجمالي: <b>${S.score}</b><div>${o[2].map((v,i)=>`<span class="chip">${SL[i]} ${v}/10</span>`).join('')}</div><small style="color:var(--mu)">الدرجة = القرار 25% + الموارد 20% + الفريق 20% + الأخلاق 20% + الاستدامة 15%</small></div>
+<div class="cd">${bars(S.snap)}</div>
+<div class="cd nt">⚠️ ${S.res[1]<35?'طاقتك قليلة، قرارات الإرهاق بتكلّف أكتر.':S.res[0]<30?'الميزانية بتقرّب تخلص، ركّز في الأولويات.':S.res[2]<45?'ثقة المتطوعين بتنزل، وممكن حد ينسحب.':has('solo')?'الاعتماد على نفسك بدأ يتراكم كخطر.':'خلّي بالك: قرارات النهارده ممكن تظهر نتايجها في مهام جاية.'}</div>
+<button class="btn" onclick="${last?"fin()":'S.m++;enter()'}">${last?'شوف تقييمك النهائي':'المهمة الجاية'}</button>`}
+function vEnd(){const r=S.res,tot=has('solo')>=2&&r[4]<55?['القائد المنفرد','نجحت في حاجات كتير، بس الفريق ما بقاش يقدر يمشي من غيرك.']:r[4]>=60&&r[2]>=60&&has('delegate')>=3?['القائد الباني','بنيت فريق يقدر ينجح حتى لو غبت. ده أكبر إنجاز.']:r[1]<25?['القائد المُنهَك','وصلت للنهاية، بس بتمن عالي. حماية الطاقة جزء من القيادة.']:['قائد في طريقه للنضج','قراراتك فيها قوة وفيها فرص تطوير واضحة.'];
+const st=[[has('delegate')>=2,'فوّضت بوضوح وكوّنت ناس تقدر تشتغل من غيرك'],[has('ethic')>=2,'اخترت القرار الأمين حتى لما كان أغلى على المدى القصير'],[r[2]>=65,'حافظت على ثقة المتطوعين'],[r[3]>=65,'بنيت ثقة قوية مع المجتمع'],[has('listen')>=1,'سمعت الرأي المعارض واستفدت منه'],[r[0]>=40,'إدارة حذرة للميزانية'],[1,'كمّلت اتخاذ القرارات رغم صعوبتها'],[1,'واجهت مواقف متضاربة من غير ما تنسحب'],[1,'اتعاملت مع نتايج قراراتك بين المهام']].filter(x=>x[0]).slice(0,3),
+dv=[[has('solo')>=1,'الاعتماد على نفسك بيستهلك طاقتك وبيضعّف الفريق'],[has('hide')>=1,'إخفاء المعلومات بيكلّف ثقة أكتر بعدين'],[has('speed')>=1,'السرعة على حساب الإنصات للفريق'],[has('overspend')>=1,'الصرف المبكر بيضيّق خياراتك بعدين'],[has('notrain')>=1,'تدريب الجداد من أول يوم'],[r[1]<40,'حماية طاقتك وطاقة الفريق'],[1,'اسأل أكتر قبل ما تقرر عشان تكشف المعلومات المخفية'],[1,'وثّق القرارات عشان الفريق يكمّل من غيرك'],[1,'جرّب أكتر من استراتيجية في نفس الموقف']].filter(x=>x[0]).slice(0,3);
+const hs=[...S.hist].sort((a,b)=>b[2]-a[2]),bs=hs[0],ws=hs[hs.length-1],bo=M[ws[0]][3].reduce((a,o,i,l)=>o[2].reduce((x,y)=>x+y)>l[a][2].reduce((x,y)=>x+y)&&ok(o[5])?i:a,0);
+const ind=Math.round((r[4]+r[2])/2),ac=[[has('delegate')>=3,'🏗️ باني القادة'],[S.hist[3]&&S.hist[3][2]>=75&&S.hist[7]&&S.hist[7][2]>=65,'🛡️ مدير الأزمات'],[has('ethic')>=2&&r[2]>=60,'🤝 حارس الثقة'],[r[3]>=68&&r[5]>=65,'🌱 صانع الأثر']].filter(x=>x[0]).map(x=>x[1]);
+LAST={t:tot[0],ind};return `<div class="hero"><div class="row">${av(S.ch,86)}</div><h2 style="margin-top:8px">${tot[0]}</h2><p>${tot[1]}</p></div>
+<div class="cd"><h3>النتيجة النهائية: ${S.score} من 800</h3>${S.hist.map(h=>`<span class="chip">م${h[0]+1}: ${h[2]}</span>`).join('')}<div style="margin-top:8px">${bars()}</div>${ac.length?`<p><b>إنجازاتك:</b> ${ac.join(' · ')}</p>`:''}</div>
+<div class="cd"><h3>3 نقاط قوة</h3>${st.map(x=>`<div>✅ ${x[1]}</div>`).join('')}<h3 style="margin-top:10px">3 مجالات تطوير</h3>${dv.map(x=>`<div>🔧 ${x[1]}</div>`).join('')}</div>
+<div class="cd"><h3>أكتر قرار أفاد الفريق</h3><div>مهمة ${bs[0]+1}: ${M[bs[0]][3][bs[1]][0]}</div><h3 style="margin-top:10px">قرار كان ليه تمن، وبديل ممكن تجرّبه</h3><div>مهمة ${ws[0]+1}: ${M[ws[0]][3][ws[1]][0]}</div><div style="color:var(--mu)">بديل: ${M[ws[0]][3][bo][0]}</div><h3 style="margin-top:10px">قدرة الفريق على الشغل من غيرك: ${ind}%</h3></div>
+<div class="cd"><h3>تحدي 7 أيام في شغلك الحقيقي</h3>${['اليوم 1: اسأل 3 زملاء عن عقبة بتواجههم','اليوم 2: فوّض مهمة بوضوح مع موعد متابعة','اليوم 3: اسمع رأي معارض من غير ما تدافع','اليوم 4: وثّق خطوة بتعملها وحدك','اليوم 5: اشكر حد قدام الفريق بإنجاز محدد','اليوم 6: اتكلم بصراحة عن مشكلة بدل ما تأجلها','اليوم 7: راجع الأسبوع: إيه اللي كمّل من غيرك؟'].map(x=>`<div>${x}</div>`).join('')}</div>
+<p style="color:var(--mu);font-size:14px">التقييم ده بيعكس قراراتك جوّه اللعبة بس، مش شخصيتك الحقيقية.</p>
+<button class="btn" onclick="S={screen:'sel',ch:0,name:''};draw()">العب تاني بقرارات مختلفة</button>`}
+let LAST=null;
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,'');
+const note=(t,b)=>{const d=document.createElement('div');d.className='cd nt';d.textContent=t;if(b){const x=document.createElement('button');x.className='btn';x.textContent='إعادة الإرسال';x.onclick=()=>submit(true);d.append(x)}ap.prepend(d)};
+function fin(){S.screen='end';sv();draw();submit()}
+async function submit(retry){const E=window.CFG&&CFG.endpoint;if(!E||E.includes('PASTE')){note('نتيجتك ما اتسجلتش: المنظّم لسه ما ضبطش رابط التسجيل.');return}
+if(!retry||!LAST.p)LAST.p={name:nm(),ch:CH[S.ch][0],score:S.score,res:S.res,pts:S.hist.map(h=>h[2]),end:LAST.t,ind:LAST.ind,at:new Date().toISOString()};
+try{await fetch(E,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(LAST.p)});note('✅ نتيجتك اتبعتت للمنظّم.')}catch(e){note('تعذّر الإرسال. اتأكد إنك متصل بالإنترنت.',1)}}
+S={screen:'start'};draw();
+</script>
+</body>
+</html>
